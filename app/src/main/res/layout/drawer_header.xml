@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                style="@style/drawerHeaderRelativeLayout">
+    <ImageView
+        android:id="@+id/menu_avatar"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_marginTop="@dimen/spacing_smaller_16"/>
+    <LinearLayout
+        style="@style/drawerHeaderTextContainer">
+        <TextView
+            style="@style/drawerHeaderTextView.name"
+            android:id="@+id/user_name_txt"
+            android:text="Тропин Леонид"/>
+
+        <TextView
+            style="@style/drawerHeaderTextView.email"
+            android:id="@+id/user_email_txt"
+            android:text="lorem@dolor.com"/>
+    </LinearLayout>
+</RelativeLayout>
