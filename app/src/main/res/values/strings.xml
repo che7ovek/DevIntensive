@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Тропин Леонид</string>
+    <string name="menu_my_profile">Мой профиль</string>
+    <string name="menu_my_team">Моя команда</string>
     <string name="user_phone">Мобильный телефон</string>
     <string name="user_email">E-mail</string>
     <string name="user_vk_profile">Профиль в VK</string>
