@@ -42,6 +42,27 @@
         <item name="android:textSize">@dimen/font_large_24</item>
     </style>
 
+    <style name="bodyHeader">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@color/grey</item>
+        <item name="android:paddingTop">@dimen/spacing_small_24</item>
+        <item name="android:paddingBottom">@dimen/spacing_small_24</item>
+        <item name="android:orientation">horizontal</item>
+    </style>
+    <style name="bodyHeaderCell">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center_horizontal</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="bodyHeaderCell.side">
+        <item name="android:layout_weight">0.25</item>
+    </style>
+    <style name="bodyHeaderCell.center">
+        <item name="android:layout_weight">0.5</item>
+    </style>
+
     <style name="horizontalDivider">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">@dimen/line_size</item>
@@ -52,6 +73,28 @@
         <item name="android:layout_width">@dimen/line_size</item>
         <item name="android:layout_height">match_parent</item>
         <item name="android:background">@color/grey_light</item>
+    </style>
+
+    <style name="editTextLine">
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginTop">@dimen/spacing_smallest_8</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_smallest_8</item>
+    </style>
+    <style name="editTextContainer">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:orientation">vertical</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_normal_32</item>
+        <item name="android:layout_marginRight">@dimen/spacing_smaller_16</item>
+        <item name="android:gravity">bottom</item>
+    </style>
+    <style name="editTextContainer.wrap">
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+    <style name="editTextContainer.noWrap">
+        <item name="android:layout_height">@dimen/size_large_72</item>
     </style>
 
     <style name="editTextField">
@@ -78,7 +121,7 @@
         <item name="android:paddingRight">@dimen/spacing_smaller_16</item>
         <item name="android:paddingLeft">@dimen/spacing_smaller_16</item>
         <item name="android:paddingBottom">@dimen/spacing_smallest_8</item>
-        <item name="android:background">@drawable/header_bg</item>
+        <item name="android:background">@drawable/nav_header_bg</item>
     </style>
     <style name="drawerHeaderTextContainer">
         <item name="android:layout_width">match_parent</item>
@@ -98,5 +141,71 @@
     </style>
     <style name="drawerHeaderTextView.email">
         <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif</item>
+    </style>
+    <style name="changePhotoTextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_smallest_8</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-medium</item>
+        <item name="android:layout_centerHorizontal">true</item>
+    </style>
+    <style name="changePhotoImageView">
+        <item name="android:layout_width">@dimen/placeholder_photo_size_90</item>
+        <item name="android:layout_height">@dimen/placeholder_photo_size_90</item>
+        <item name="android:scaleType">centerCrop</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_alignParentBottom">true</item>
+        <item name="android:layout_marginBottom">@dimen/spacing_large_56</item>
+    </style>
+    <!--/drawer_header-->
+
+    <!-- Login page -->
+    <style name="loginPage">
+        <item name="android:layout_width">@dimen/login_width</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:background">@drawable/rounded_bg</item>
+        <item name="android:paddingBottom">@dimen/spacing_small_24</item>
+        <item name="android:paddingTop">@dimen/spacing_small_24</item>
+        <item name="android:orientation">vertical</item>
+    </style>
+    <style name="loginTitle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_small_24</item>
+        <item name="android:textColor">@color/color_accent</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-medium</item>
+        <item name="android:textSize">@dimen/font_large_24</item>
+    </style>
+    <style name="loginTextField">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item>
+    </style>
+    <style name="loginTextField.login">
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+    <style name="loginTextField.password">
+        <item name="android:inputType">textPassword</item>
+    </style>
+    <style name="loginButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:layout_marginRight">@dimen/spacing_small_24</item>
+        <item name="android:layout_marginLeft">@dimen/spacing_small_24</item>
+        <item name="android:layout_marginTop">@dimen/spacing_smaller_16</item>
+    </style>
+    <style name="loginForgetPassword">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginTop">@dimen/spacing_small_24</item>
+        <item name="android:fontFamily" tools:targetApi="jelly_bean">sans-serif-condensed</item>
+    </style>
+    <style name="loginButtonTheme" parent="ThemeOverlay.AppCompat.Light">
+        <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/white</item>
+        <item name="android:colorButtonNormal" tools:targetApi="lollipop">@color/color_accent</item>
     </style>
 </resources>
