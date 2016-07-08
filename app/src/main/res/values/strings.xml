@@ -23,4 +23,5 @@
     <string name="login_page.password">Пароль</string>
     <string name="login_page.button">Войти</string>
     <string name="login_page.forget_password">Забыли пароль?</string>
+    <string name="validation.email">Email is not correct</string>
 </resources>

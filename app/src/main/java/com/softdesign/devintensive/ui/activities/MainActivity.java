@@ -23,18 +23,18 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 
 import com.softdesign.devintensive.R;
@@ -49,6 +49,11 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Pattern;
+
+import butterknife.BindView;
+import butterknife.BindViews;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -57,22 +62,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private DataManager mDataManager;
     private boolean mCurrentEditMode = false;
 
-    private CoordinatorLayout mCoordinatorLayout;
-    private Toolbar mToolbar;
-    private CollapsingToolbarLayout mToolbarLayout;
-    private AppBarLayout mAppBarLayout;
-    private ImageView mUserProfileImage;
-    private DrawerLayout mNavigationDrawer;
-    private NavigationView mNavigationView;
-    private View mNavigationViewHeader;
+    @BindView(R.id.main_coordinator_container) CoordinatorLayout mCoordinatorLayout;
+    @BindView(R.id.toolbar) Toolbar mToolbar;
+    @BindView(R.id.collapsing_toolbar) CollapsingToolbarLayout mToolbarLayout;
+    @BindView(R.id.appbar_layout) AppBarLayout mAppBarLayout;
+    @BindView(R.id.user_photo_img) ImageView mUserProfileImage;
+    @BindView(R.id.navigation_drawer) DrawerLayout mNavigationDrawer;
+    @BindView(R.id.navigation_view) NavigationView mNavigationView;
+    @BindView(R.id.fab) FloatingActionButton mFab;
+    @BindView(R.id.profile_placeholder) RelativeLayout mProfilePlaceholder;
+
+    @BindView(R.id.userPhoneButton) ImageView mUserPhoneButton;
+    @BindView(R.id.userEmailButton) ImageView mUserMailButton;
+    @BindView(R.id.userVkButton) ImageView mUserVkButton;
+    @BindView(R.id.userGitButton) ImageView mUserGitButton;
+
     private ImageView mMenuAvatarView;
-    private FloatingActionButton mFab;
-    private RelativeLayout mProfilePlaceholder;
 
-    private ImageView mUserPhoneButton, mUserMailButton, mUserVkButton, mUserGitButton;
-
-    private EditText mUserPhone, mUserMail, mUserVk, mUserGit, mUserBio;
-    private List<EditText> mUserInfoViews;
+    @BindViews({R.id.userPhoneNumber, R.id.userEmail, R.id.userVkProfile, R.id.userGithubRepository, R.id.userBio}) List<EditText> mUserInfoViews;
 
     private AppBarLayout.LayoutParams mAppBarParams = null;
     private File mPhotoFile = null;
@@ -84,35 +91,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Log.d(TAG, "onCreate");
 
         mDataManager = DataManager.getInstance();
-        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.main_coordinator_container);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar_layout);
-        mUserProfileImage = (ImageView) findViewById(R.id.user_photo_img);
-        mNavigationDrawer = (DrawerLayout) findViewById(R.id.navigation_drawer);
-        mNavigationView = (NavigationView) findViewById(R.id.navigation_view);
-        mNavigationViewHeader =  getLayoutInflater().inflate(R.layout.drawer_header, mNavigationView);
+        ButterKnife.bind(this);
+        View mNavigationViewHeader =  getLayoutInflater().inflate(R.layout.drawer_header, mNavigationView);
         mMenuAvatarView = (ImageView) mNavigationViewHeader.findViewById(R.id.menu_avatar);
-        mFab = (FloatingActionButton) findViewById(R.id.fab);
-        mProfilePlaceholder = (RelativeLayout) findViewById(R.id.profile_placeholder);
-
-        mUserPhoneButton = (ImageView) findViewById(R.id.userPhoneButton);
-        mUserMailButton = (ImageView) findViewById(R.id.userEmailButton);
-        mUserVkButton = (ImageView) findViewById(R.id.userVkButton);
-        mUserGitButton = (ImageView) findViewById(R.id.userGitButton);
-
-        mUserPhone = (EditText) findViewById(R.id.userPhoneNumber);
-        mUserMail = (EditText) findViewById(R.id.userEmail);
-        mUserVk = (EditText) findViewById(R.id.userVkProfile);
-        mUserGit = (EditText) findViewById(R.id.userGithubRepository);
-        mUserBio = (EditText) findViewById(R.id.userBio);
-
-        mUserInfoViews = new ArrayList<>();
-        mUserInfoViews.add(mUserPhone);
-        mUserInfoViews.add(mUserMail);
-        mUserInfoViews.add(mUserVk);
-        mUserInfoViews.add(mUserGit);
-        mUserInfoViews.add(mUserBio);
 
         mFab.setOnClickListener(this);
         mProfilePlaceholder.setOnClickListener(this);
@@ -124,6 +105,44 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setupToolbar();
         setupDrawer();
         loadUserInfoValue();
+
+        mUserInfoViews.get(0).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!ConstantManager.PHONE_PATTERN.matcher(editable.toString()).matches()) {
+                    mUserInfoViews.get(0).setError(getString(R.string.validation_email));
+                }
+            }
+        });
+
+        mUserInfoViews.get(1).addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if(!ConstantManager.EMAIL_ADDRESS_PATTERN.matcher(editable.toString()).matches()) {
+                    mUserInfoViews.get(1).setError(getString(R.string.validation_email));
+                }
+            }
+        });
 
         if (savedInstanceState != null) {
             mCurrentEditMode = savedInstanceState.getBoolean(ConstantManager.EDIT_MODE_KEY, false);
@@ -216,10 +235,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 actionSendTo();
                 break;
             case R.id.userVkButton:
-                actionViewHttp(mUserVk);
+                actionViewHttp(mUserInfoViews.get(2));
                 break;
             case R.id.userGitButton:
-                actionViewHttp(mUserGit);
+                actionViewHttp(mUserInfoViews.get(3));
                 break;
         }
     }
@@ -318,6 +337,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             showProfilePlaceholder();
             lockToolbar();
+            mUserInfoViews.get(0).requestFocus(); //фокус на поле телефон
             mToolbarLayout.setExpandedTitleColor(Color.TRANSPARENT);
         } else {
             mFab.setImageResource(R.drawable.ic_edit_black_24dp);
@@ -543,7 +563,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Запуск звонилки
      */
     public void actionDial(){
-        String phoneNumber = mUserPhone.getText().toString();
+        String phoneNumber = mUserInfoViews.get(0).getText().toString();
         Intent phoneCall = new Intent(Intent.ACTION_DIAL);
         phoneCall.setData(Uri.parse("tel:" + phoneNumber));
         startActivity(phoneCall);
@@ -553,7 +573,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
      * Запуск приложения для отправки сообщения
      */
     private void actionSendTo() {
-        String mail = mUserMail.getText().toString();
+        String mail = mUserInfoViews.get(1).getText().toString();
         Intent mailSend = new Intent(Intent.ACTION_SENDTO);
         mailSend.setData(Uri.parse("mailto:" + mail));
         startActivity(mailSend);

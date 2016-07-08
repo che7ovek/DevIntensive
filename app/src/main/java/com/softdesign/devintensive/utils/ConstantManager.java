@@ -2,6 +2,8 @@ package com.softdesign.devintensive.utils;
 
 import android.content.IntentSender;
 
+import java.util.regex.Pattern;
+
 public interface ConstantManager {
     String TAG_PREFIX = "DEV ";
 
@@ -20,4 +22,16 @@ public interface ConstantManager {
 
     int PERMISSION_REQUEST_SETTINGS_CODE = 340;
     int CAMERA_REQUEST_PERMISSION_CODE = 341;
+
+    Pattern PHONE_PATTERN = Pattern.compile(
+            "\\+" +
+                    "[0-9\\-\\s]{11,20}"
+    );
+    Pattern EMAIL_ADDRESS_PATTERN = Pattern.compile(
+            "[a-zA-Z0-9\\+\\.\\_\\%\\-]{3,64}" +
+                    "\\@" +
+                    "[a-zA-Z0-9][a-zA-Z0-9\\-]{2,64}" +
+                    "\\." +
+                    "[a-zA-Z0-9]{2,64}"
+    );
 }
