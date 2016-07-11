@@ -7,8 +7,21 @@
     <string name="user_vk_profile">Профиль в VK</string>
     <string name="user_github_repository">Репозиторий</string>
     <string name="user_info">О себе</string>
+
     <string name="rating">Рейтинг</string>
     <string name="code_lines">Написано строк кода</string>
     <string name="projects">Проектов</string>
-    <string name="lorem_ipsum">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris odio elit, fermentum ac nisl et, volutpat tempor nisi. Maecenas iaculis ex nec elit faucibus scelerisque. Phasellus ac consequat magna, ac ultrices est. Etiam ac dignissim ex, vel pellentesque est. Cras commodo sodales magna id hendrerit. Vestibulum ut facilisis erat. Etiam mattis efficitur tincidunt. Morbi luctus odio ex, ut tempor orci molestie at. Maecenas quis laoreet arcu. Sed vel velit eleifend odio feugiat ornare vel sed urna. Phasellus nulla purus, sagittis vel mauris nec, interdum congue tortor.</string>
+
+    <string name="change_photo">Изменить фотографию профиля</string>
+    <string name="user_profile.dialog.gallery">Загрузить из галереи</string>
+    <string name="user_profile.dialog.camera">Сделать снимок</string>
+    <string name="user_profile.dialog.cancel">Отмена</string>
+    <string name="user_profile.chose.message">Выберите фото</string>
+
+    <string name="login_page.title">Войти</string>
+    <string name="login_page.email">E-mail</string>
+    <string name="login_page.password">Пароль</string>
+    <string name="login_page.button">Войти</string>
+    <string name="login_page.forget_password">Забыли пароль?</string>
+    <string name="validation.email">Email is not correct</string>
 </resources>

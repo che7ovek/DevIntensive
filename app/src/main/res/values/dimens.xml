@@ -8,6 +8,7 @@
     <dimen name="size_medium_56">56dp</dimen>
     <dimen name="size_large_72">72dp</dimen>
     <dimen name="line_size">1dp</dimen>
+    <dimen name="placeholder_photo_size_90">90dp</dimen>
     <dimen name="profile_image_size">256dp</dimen>
 
     <!-- Spaces -->
@@ -27,5 +28,7 @@
     <dimen name="font_large_24">24sp</dimen>
     <dimen name="font_larger_34">34sp</dimen>
     <dimen name="font_largest_45">45sp</dimen>
+    <dimen name="corner_radius_2">2dp</dimen>
+    <dimen name="login_width">240dp</dimen>
 
 </resources>
