@@ -10,12 +10,10 @@
         style="@style/drawerHeaderTextContainer">
         <TextView
             style="@style/drawerHeaderTextView.name"
-            android:id="@+id/user_name_txt"
-            android:text="Тропин Леонид"/>
+            android:id="@+id/user_name_txt"/>
 
         <TextView
             style="@style/drawerHeaderTextView.email"
-            android:id="@+id/user_email_txt"
-            android:text="lorem@dolor.com"/>
+            android:id="@+id/user_email_txt"/>
     </LinearLayout>
 </RelativeLayout>
