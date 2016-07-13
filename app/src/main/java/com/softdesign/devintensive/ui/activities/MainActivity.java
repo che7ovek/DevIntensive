@@ -8,6 +8,8 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -36,12 +38,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.softdesign.devintensive.R;
 import com.softdesign.devintensive.data.managers.DataManager;
 import com.softdesign.devintensive.utils.ConstantManager;
 import com.softdesign.devintensive.utils.RoundedAvatarDrawable;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
+
+import org.w3c.dom.Text;
 
 import java.io.File;
 import java.io.IOException;
@@ -49,7 +55,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.regex.Pattern;
 
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -72,12 +77,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.fab) FloatingActionButton mFab;
     @BindView(R.id.profile_placeholder) RelativeLayout mProfilePlaceholder;
 
+    @BindViews({R.id.userRating, R.id.userCodeLines, R.id.userProjects}) List<TextView> mUserValueViews;
+
     @BindView(R.id.userPhoneButton) ImageView mUserPhoneButton;
     @BindView(R.id.userEmailButton) ImageView mUserMailButton;
     @BindView(R.id.userVkButton) ImageView mUserVkButton;
     @BindView(R.id.userGitButton) ImageView mUserGitButton;
 
     private ImageView mMenuAvatarView;
+    private TextView mUserNameTxt;
+    private TextView mUserEmailTxt;
 
     @BindViews({R.id.userPhoneNumber, R.id.userEmail, R.id.userVkProfile, R.id.userGithubRepository, R.id.userBio}) List<EditText> mUserInfoViews;
 
@@ -94,6 +103,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         ButterKnife.bind(this);
         View mNavigationViewHeader =  getLayoutInflater().inflate(R.layout.drawer_header, mNavigationView);
         mMenuAvatarView = (ImageView) mNavigationViewHeader.findViewById(R.id.menu_avatar);
+        mUserNameTxt = (TextView) mNavigationViewHeader.findViewById(R.id.user_name_txt);
+        mUserEmailTxt = (TextView) mNavigationViewHeader.findViewById(R.id.user_email_txt);
 
         mFab.setOnClickListener(this);
         mProfilePlaceholder.setOnClickListener(this);
@@ -104,7 +115,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         setupToolbar();
         setupDrawer();
-        loadUserInfoValue();
+        initUserFields();
+        initUserInfoValue();
 
         mUserInfoViews.get(0).addTextChangedListener(new TextWatcher() {
             @Override
@@ -139,7 +151,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void afterTextChanged(Editable editable) {
                 if(!ConstantManager.EMAIL_ADDRESS_PATTERN.matcher(editable.toString()).matches()) {
-                    mUserInfoViews.get(1).setError(getString(R.string.validation_email));
+                    mUserInfoViews.get(1).setError(getString(R.string.validation_phone));
                 }
             }
         });
@@ -191,7 +203,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
         Log.d(TAG, "onPause");
-        saveUserInfoValue();
+        saveUserFields();
     }
 
     @Override
@@ -290,9 +302,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 return false;
             }
         });
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.menu_avatar);
-        RoundedAvatarDrawable rad = new RoundedAvatarDrawable(bitmap);
-        mMenuAvatarView.setImageDrawable(rad.mutate());
+        //Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.menu_avatar);
+        Picasso.with(this)
+                .load(mDataManager.getPreferencesManager().loadUserAvatar())
+                .placeholder(R.drawable.menu_avatar) // TODO: 01.07.2016 сделать плейсхолдер и transform + crop
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded (final Bitmap bitmap, Picasso.LoadedFrom from){
+                        //Set it in the ImageView
+                        RoundedAvatarDrawable rad = new RoundedAvatarDrawable(bitmap);
+                        mMenuAvatarView.setImageDrawable(rad.mutate());
+                    }
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {}
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {}
+                });
+        initUserName();
+        initUserEmail();
     }
 
     /**
@@ -345,7 +372,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 userValue.setEnabled(false);
                 userValue.setFocusable(false);
                 userValue.setFocusableInTouchMode(false);
-                saveUserInfoValue();
+                saveUserFields();
             }
 
             hideProfilePlaceholder();
@@ -358,7 +385,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Загрузка данных пользователя из PreferencesManager
      */
-    private void loadUserInfoValue(){
+    private void initUserFields(){
         List<String> userData = mDataManager.getPreferencesManager().loadUserProfileData();
         for (int i = 0; i < userData.size(); i++) {
             mUserInfoViews.get(i).setText(userData.get(i));
@@ -372,7 +399,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     /**
      * Сохранение данных пользователя в PreferencesManager
      */
-    private void saveUserInfoValue(){
+    private void saveUserFields(){
         List<String> userData = new ArrayList<>();
         for (EditText userFieldView : mUserInfoViews) {
             userData.add(userFieldView.getText().toString());
@@ -380,6 +407,21 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         mDataManager.getPreferencesManager().saveUserProfileData(userData);
     }
 
+    private void initUserInfoValue(){
+        List<String> userData = mDataManager.getPreferencesManager().loadUserProfileValues();
+        for (int i = 0; i < userData.size(); i++) {
+            mUserValueViews.get(i).setText(userData.get(i));
+        }
+    }
+
+    private void initUserName(){
+        mUserNameTxt.setText(mDataManager.getPreferencesManager().loadUserFullName());
+        this.setTitle(mDataManager.getPreferencesManager().loadUserFullName());
+    }
+
+    private void initUserEmail(){
+        mUserEmailTxt.setText(mDataManager.getPreferencesManager().loadUserProfileData().get(1));
+    }
     /**
      * Загрузка фото из галереи
      */

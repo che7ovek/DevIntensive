@@ -15,7 +15,8 @@
             <LinearLayout
                 style="@style/bodyHeaderCell.side">
                 <android.support.v7.widget.AppCompatTextView
-                    style="@style/headerText.field"/>
+                    style="@style/headerText.field"
+                    android:id="@+id/userRating"/>
                 <android.support.v7.widget.AppCompatTextView
                     style="@style/headerText"
                     android:text="@string/rating"/>
@@ -27,7 +28,8 @@
                 style="@style/bodyHeaderCell.center"
                 >
                 <android.support.v7.widget.AppCompatTextView
-                    style="@style/headerText.field"/>
+                    style="@style/headerText.field"
+                    android:id="@+id/userCodeLines"/>
                 <android.support.v7.widget.AppCompatTextView
                     style="@style/headerText"
                     android:text="@string/code_lines"/>
@@ -38,7 +40,8 @@
             <LinearLayout
                 style="@style/bodyHeaderCell.side">
                 <android.support.v7.widget.AppCompatTextView
-                    style="@style/headerText.field"/>
+                    style="@style/headerText.field"
+                    android:id="@+id/userProjects"/>
                 <android.support.v7.widget.AppCompatTextView
                     style="@style/headerText"
                     android:text="@string/projects"/>
