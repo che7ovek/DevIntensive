@@ -27,6 +27,8 @@ public interface ConstantManager {
     String USER_FIRST_NAME = "USER_FIRST_NAME";
     String USER_SECOND_NAME = "USER_SECOND_NAME";
 
+    String PARCELABLE_KEY = "PARCELABLE_KEY";
+
     int LOAD_PROFILE_PHOTO = 1;
     int REQUEST_CAMERA_PICTURE = 99;
     int REQUEST_GALLERY_PICTURE = 77;

@@ -28,4 +28,6 @@
     <string name="validation.phone">Phone is not correct</string>
     <string name="error.wrongLoginPassword">Неверный логин или пароль</string>
     <string name="error.someError">It\'s a trap!</string>
+    <string name="full_name_hint">Фамилия Имя</string>
+    <string name="more_info_btn">Просмотр</string>
 </resources>
