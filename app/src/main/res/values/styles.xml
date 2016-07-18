@@ -208,4 +208,12 @@
         <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/white</item>
         <item name="android:colorButtonNormal" tools:targetApi="lollipop">@color/color_accent</item>
     </style>
+
+    <!-- ToolBar -->
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+        <item name="android:actionMenuTextColor">@color/white</item>
+    </style>
+
 </resources>
